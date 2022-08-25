@@ -75,7 +75,9 @@
     name: "Login",
     data() {
       const loginMobile = (rule, value, callback) => {
-        validateMobile(value) ? callback() : callback(new Error("手机号格式不正确"));
+        validateMobile(value)
+          ? callback()
+          : callback(new Error("手机号格式不正确"));
       };
       return {
         loginForm: {
@@ -84,13 +86,13 @@
         },
         loginRules: {
           mobile: [
-            { required: true, trigger: "blur", message="手机号不能为空" },
-            { validator: loginMobile, trigger: "blur" }
+            { required: true, trigger: "blur", message: "手机号不能为空" },
+            { validator: loginMobile, trigger: "blur" },
           ],
           password: [
-            { required: true, trigger: "blur", message="密码不能为空"},
-            { trigger: "blur", min: 6, max: 16},
-            { validator: validatePassword, trigger: "blur" }
+            { required: true, trigger: "blur", message: "密码不能为空" },
+            { trigger: "blur", min: 6, max: 16 },
+            { validator: validatePassword, trigger: "blur" },
           ],
         },
         loading: false,
