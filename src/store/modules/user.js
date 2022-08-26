@@ -15,7 +15,12 @@ const mutations = {
         removeToken() // 先清除 vuex  再清除缓存 vuex和 缓存数据的同步
     }
 };
-const actions = {};
+const actions = {
+    async login(context, data) {
+        const res = await login(data);
+        context.commit("setToken", res.data.data)
+    }
+};
 
 export default {
     namespaced: true,
