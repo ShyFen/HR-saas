@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Message } from "request"
+import { Message } from "element-ui"
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
@@ -21,7 +21,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         const res = response.data;
-        return res.success ? res.data : Promise.reject(new Error(Message.error(res.message)))
+        if (res.success) {
+            return res.data;
+        } else {
+            Message.error(res.message)
+            return Promise.reject(new Error(res.message))
+        }
+
 
     },
     error => {

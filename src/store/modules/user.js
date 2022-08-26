@@ -1,4 +1,5 @@
 import { getToken, setToken, removeToken } from "@/utils/auth.js"
+import { login } from '@/api/user'
 
 const state = {
     token: getToken(), //初始化vuex时，从缓存中读取
@@ -18,7 +19,7 @@ const mutations = {
 const actions = {
     async login(context, data) {
         const res = await login(data);
-        context.commit("setToken", res.data.data)
+        context.commit("setToken", res.data)
     }
 };
 

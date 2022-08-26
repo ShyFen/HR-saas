@@ -70,6 +70,7 @@
 
 <script>
   import { validateMobile } from "@/utils/validate";
+  import { mapActions } from "vuex";
 
   export default {
     name: "Login",
@@ -92,7 +93,6 @@
           password: [
             { required: true, trigger: "blur", message: "密码不能为空" },
             { trigger: "blur", min: 6, max: 16 },
-            { validator: validatePassword, trigger: "blur" },
           ],
         },
         loading: false,
@@ -109,6 +109,7 @@
       },
     },
     methods: {
+      ...mapActions(["user/login"]),
       showPwd() {
         if (this.passwordType === "password") {
           this.passwordType = "";
@@ -120,21 +121,17 @@
         });
       },
       handleLogin() {
-        this.$refs.loginForm.validate((valid) => {
-          if (valid) {
-            this.loading = true;
-            this.$store
-              .dispatch("user/login", this.loginForm)
-              .then(() => {
-                this.$router.push({ path: this.redirect || "/" });
-                this.loading = false;
-              })
-              .catch(() => {
-                this.loading = false;
-              });
-          } else {
-            console.log("error submit!!");
-            return false;
+        this.$refs.loginForm.validate(async (isLogin) => {
+          if (isLogin) {
+            try {
+              this.loading = true;
+              await this["user/login"](this.loginForm);
+              this.$router.push("/");
+            } catch (err) {
+              console.log(err);
+            } finally {
+              this.loading = false;
+            }
           }
         });
       },
