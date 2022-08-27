@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from "@/utils/auth.js"
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserPhoto } from '@/api/user'
 
 const state = {
     token: getToken(), //初始化vuex时，从缓存中读取
@@ -31,8 +31,13 @@ const actions = {
         context.commit("setToken", res)
     },
     async getUserInfo(context) {
+        // 用户基本信息
         const res = await getUserInfo();
-        context.commit("setUserInfo", res)
+        // 用户详情信息
+        const userPhoto = await getUserPhoto(res.userId);
+        const userObj = {...res, ...userPhoto };
+        context.commit("setUserInfo", userObj);
+
     }
 };
 
