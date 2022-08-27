@@ -7,13 +7,16 @@ import "nprogress/nprogress.css"
 const whiteList = ["/login", "/404"]
 
 // 路由的前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
     nprogress.start() //开启进度条
     if (store.state.user.token) {
         console.log("store.getters.token:", store.state.user.token)
         if (to.path === "/login") {
             next("/") //跳转到主页
         } else {
+            if (!store.getters.userId) {
+                await store.dispatch("user/getUserInfo")
+            }
             next() //放过
         }
     } else {

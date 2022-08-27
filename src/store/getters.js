@@ -2,6 +2,7 @@ const getters = {
     sidebar: state => state.app.sidebar,
     device: state => state.app.device,
     token: state => state.user.token,
-    name: state => state.user.userInfo.name, //用户名
+    name: state => state.user.userInfo.username, //用户名
+    userId: state => state.user.userInfo.userInfo
 }
 export default getters
