@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from "@/utils/auth.js"
+import { getToken, setToken, removeToken, getTimeKey, setTimeKey } from "@/utils/auth.js"
 import { login, getUserInfo, getUserPhoto } from '@/api/user'
 
 const state = {
@@ -28,7 +28,9 @@ const mutations = {
 const actions = {
     async login(context, data) {
         const res = await login(data);
-        context.commit("setToken", res)
+        context.commit("setToken", res);
+        // 登录成功，使用时间戳
+        setTimeKey() //设置时间戳
     },
     async getUserInfo(context) {
         // 用户基本信息
@@ -38,6 +40,12 @@ const actions = {
         const userObj = {...res, ...userPhoto };
         context.commit("setUserInfo", userObj);
 
+    },
+    loginOut(context) {
+        // 删除token
+        context.commit("removeToken");
+        // 删除用户信息
+        context.commit("removeUserInfo")
     }
 };
 
