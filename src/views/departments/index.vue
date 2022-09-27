@@ -22,7 +22,11 @@
         ></tree-tools>
       </el-tree>
     </el-card>
-    <add-dept :isShow="isShowAdd" :treeNode="nodeData"></add-dept>
+    <add-dept
+      :isShow.sync="isShowAdd"
+      :treeNode="nodeData"
+      @addDept="getData"
+    ></add-dept>
   </div>
 </template>
 
@@ -69,6 +73,7 @@
         });
         this.resData = res.depts;
         console.log(this.resData);
+        this.isShowAdd = false;
       },
       // 监听tree-tool中点击添加新部门
       fatherAddDepts(data) {

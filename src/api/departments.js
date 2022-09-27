@@ -11,7 +11,7 @@ export function getDepartments() {
 export function addDepartments(data) {
     return request({
         method: "post",
-        url: " /company/department",
+        url: "/company/department",
         data
     })
 }
