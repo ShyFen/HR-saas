@@ -26,6 +26,4 @@ export function getUserPhoto(id) {
     })
 }
 
-export function logout() {
-
-}
+export function logout() {}

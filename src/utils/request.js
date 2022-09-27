@@ -12,7 +12,6 @@ function isTimeOut() {
     let oldTime = getTimeKey();
     // true表示过期
     return (newTime - oldTime) / 1000 > TimeOut
-
 }
 
 const service = axios.create({
@@ -49,8 +48,6 @@ service.interceptors.response.use(
             Message.error(res.message)
             return Promise.reject(new Error(res.message))
         }
-
-
     },
     error => {
         if (error.response && error.response.data && error.response.data.code === 10002) {

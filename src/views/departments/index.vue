@@ -6,7 +6,7 @@
 
       <el-tree
         style="width: 100%"
-        :data="data"
+        :data="resData"
         :props="defaultProps"
         :default-expand-all="true"
       >
@@ -18,31 +18,43 @@
 
 <script>
   import TreeTools from "./components/tree-tools.vue";
+  import { getDepartments } from "@/api/departments";
 
   export default {
     data() {
       return {
-        data: [
-          {
-            name: "总裁办",
-            manager: "张大",
-            children: [{ name: "董事会", manager: "张二" }],
-          },
-          { name: "行政部", manager: "李大" },
-          { name: "人事部", manager: "王大" },
-        ],
+        resData: [],
         defaultProps: {
           label: "name",
           children: "children",
         },
-        company: {
-          name: "shyfen公司管理平台",
-          manager: "负责人",
-        },
+        company: {},
       };
     },
     components: {
       TreeTools,
+    },
+    created() {
+      this.getData();
+    },
+    methods: {
+      async getData() {
+        const res = await getDepartments();
+        this.company = { name: res.companyName, manager: "负责人" };
+        res.depts.forEach((item) => {
+          if (!item.pid) {
+            let children = [];
+            res.depts.forEach((m) => {
+              if (m.pid === item.id) {
+                children.push(m);
+              }
+            });
+            this.$set(item, "children", children);
+          }
+        });
+        this.resData = res.depts;
+        console.log(this.resData);
+      },
     },
   };
 </script>

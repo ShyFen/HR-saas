@@ -105,6 +105,7 @@
         handler: function (route) {
           this.redirect = route.query && route.query.redirect;
         },
+        // 立即执行handle的函数
         immediate: true,
       },
     },
